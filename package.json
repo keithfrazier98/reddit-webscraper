@@ -1,0 +1,24 @@
+{
+  "name": "reddit-webscraper",
+  "version": "1.0.0",
+  "description": "> A Reddit Webscraper that can be pointed at any subreddit.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keithfrazier98/reddit-webscraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keithfrazier98/reddit-webscraper/issues"
+  },
+  "homepage": "https://github.com/keithfrazier98/reddit-webscraper#readme",
+  "dependencies": {
+    "puppeteer": "^19.4.1"
+  }
+}
