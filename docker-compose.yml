@@ -1,0 +1,8 @@
+version: "3.4"
+
+service:
+  api: 
+    build:
+      context: .
+      # execute the entire Dockerfile for prod
+      target: production

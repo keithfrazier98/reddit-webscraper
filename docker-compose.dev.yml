@@ -1,0 +1,14 @@
+# docker compose file for development
+version: "3.4"
+
+services: 
+  api:
+    # stop Dockerfile at development setup
+    build:
+      context: .
+      target: development
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules  
+    # overwrite the CMD (npm run build)
+    command: npm run dev

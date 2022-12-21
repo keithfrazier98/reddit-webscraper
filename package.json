@@ -5,6 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "ts-node-dev --poll src/index.cts",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/index.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +23,10 @@
   "homepage": "https://github.com/keithfrazier98/reddit-webscraper#readme",
   "dependencies": {
     "puppeteer": "^19.4.1"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
   }
 }
