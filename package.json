@@ -1,13 +1,12 @@
 {
   "name": "reddit-webscraper",
   "version": "1.0.0",
-  "description": "> A Reddit Webscraper that can be pointed at any subreddit.",
+  "description": "A Reddit Webscraper that can be pointed at any subreddit.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "ts-node-dev --poll src/index.cts",
+    "dev": "ts-node-dev --poll src/index.ts",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/index.cjs",
+    "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -3,7 +3,21 @@
 
 FROM node:slim as development
 
+# We don't need the standalone Chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+# Install Google Chrome Stable and fonts
+# Note: this installs the necessary libs to make the browser work with Puppeteer.
+RUN apt-get update && apt-get install gnupg wget -y && \
+  wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
+  apt-get update && \
+  apt-get install google-chrome-stable -y --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/*
+
+
 # The src directory is available after COPY, us it as WORKDIR.
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # explicitly COPY the package files to store seperate in cache
@@ -21,20 +35,6 @@ RUN npm run build
 # Define production container with compiled src code
 FROM node:slim as production
 
-
-# ARG NODE_ENV=production 
-# ENV NODE_ENV=${NODE_ENV}
-
-# The src directory is available after COPY, us it as WORKDIR.
-WORKDIR /usr/src/app
-
-# explicitly COPY the package files to store seperate in cache
-COPY package*.json .
-
-RUN npm ci --only=production
-
-COPY --from=development /usr/src/app/dist ./dist
-
 # We don't need the standalone Chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
@@ -46,6 +46,20 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   apt-get update && \
   apt-get install google-chrome-stable -y --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
+
+# ARG NODE_ENV=production 
+# ENV NODE_ENV=${NODE_ENV}
+
+# The src directory is available after COPY, us it as WORKDIR.
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# explicitly COPY the package files to store seperate in cache
+COPY package*.json .
+
+RUN npm ci --only=production
+
+COPY --from=development /usr/src/app/dist .
 
 # Start the application 
 CMD node index.js
